@@ -13,20 +13,27 @@
     1. Clona este repositorio en tu máquina:
 
 
+    ```bash
         git clone https://github.com/JoseGJ10/AppMarcador.git
+    ```
 
     2. Navega al directorio del proyecto:
 
+    ```bash
         cd AppMarcador
+    ```
 
     3. Asegurate de tener Node.js instalado en tu sistema.
-
+    
+    ```bash
         node --version
+    ```
 
     4. Instala las dependencias de node
 
+    ```bash
         npm i
-
+    ```
 # Uso
 
 
