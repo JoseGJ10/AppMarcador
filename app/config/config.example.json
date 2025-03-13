@@ -1,0 +1,15 @@
+{
+    "development" : {
+        "host": "127.0.0.1",
+        "database": "nombre_BD_development",
+        "username": "usuario",
+        "password": "pass"
+    },
+    "production": {
+        "host": "127.0.0.1",
+        "database": "nombre_BD_production",
+        "username": "usuario",
+        "password": "pass"
+    }
+
+}
