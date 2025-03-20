@@ -1,5 +1,4 @@
 const { DataTypes } = require("sequelize"); // Asegúrate de importar tu instancia de Sequelize
-const { sequelize } = require(".");
 
 module.exports = (sequelize) => {
 

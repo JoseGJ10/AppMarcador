@@ -6,32 +6,21 @@ const db        = {};
 
 const env = config['env']
 
-const { database, username, password, host, dialect } = config[env]
+const { database, username, password, host, dialect, port } = config[env]
 
 const { Sequelize, Op, Model, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(database, username, password, {
 	logging: false,
-	host: host,
-	dialect: dialect,
+	host, port, dialect,
 	dialectOptions: {
 		multipleStatements: true
-	}/*,
-	pool: {
-		max: 30, //max open
-		min: 5, //min open
-		idle: 20000, 
-		evict: 15000,
-		acquire: 30000
-	  }*/
+	}
 });
 
-fs
-.readdirSync(__dirname)
-.filter(function(file) {
+fs.readdirSync(__dirname).filter(function(file) {
 	return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-})
-.forEach(function(file) {
+}).forEach(function(file) {
 	const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
 	db[model.name] = model;
 });
@@ -42,24 +31,15 @@ Object.keys(db).forEach(function(modelName) {
     }
 });
 
-applyExtraSetup(db);
+applyRelationShip(db);
 
- sequelize
-.sync({ alter: false })
-.then( ()=>{
+ sequelize.sync({ alter: false }).then( ()=>{
     console.log('Tables created');
-    //createProject();
-    //testJoin();
-})
-.catch( err => {
+}).catch( err => {
     console.error('Unable to create tables:', err);
 }); 
 
-// uncomment when doing "force: true"
-// insertBasicDbData();
-
 async function insertBasicDbData() {
-
 	
 }
 

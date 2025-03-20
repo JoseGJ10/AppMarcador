@@ -21,16 +21,6 @@ module.exports = (sequelize) => {
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
-    BoardGameId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: Boardgame,
-        key: "id",
-      },
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
-    },
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,

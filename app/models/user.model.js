@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 
-module.exports = (sequelize) => {
+module.exports = ( sequelize ) => {
     const User = sequelize.define(
         "User",
         {
@@ -9,11 +9,6 @@ module.exports = (sequelize) => {
             email: { type: DataTypes.STRING, allowNull: false, unique: true },
             password: { type: DataTypes.STRING, allowNull: false },
             avatar: { type: DataTypes.STRING }, // Ruta de la imagen de perfil
-            roleId: { 
-                type: DataTypes.INTEGER,
-                allowNull: false,
-                references: { model: "roles", key: "id" } // Clave foránea
-            }
         },
         {
             tableName: "users",

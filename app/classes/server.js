@@ -1,7 +1,7 @@
 const express = require('express');
-const routes = require('../routes/index');
+const { userRoutes, gameRoutes, homeRoutes } = require("../routes");
 const { sequelize } = require('../models');
-
+const errorHandler = require('../middlewares/errorHandler');
 class Server {
 
     constructor(){
@@ -14,12 +14,14 @@ class Server {
     }
 
     middlewares(){
-
+        this.app.use(express.json());
     }
 
     routes(){
 
-        this.app.use('/api',routes);
+        this.app.use("/api/users", userRoutes);
+        this.app.use("/api/games", gameRoutes);
+        this.app.use("/api/home", homeRoutes);
 
     }
 
@@ -33,7 +35,6 @@ class Server {
             await sequelize.sync({ alter: true }); // Crea/Actualiza las tablas
             console.log('✅ Modelos sincronizados con la base de datos.');
 
-            
             
             this.app.listen(this.port, () => {
                 
@@ -52,5 +53,8 @@ class Server {
     }
 
 }
+
+const server = new Server();
+server.app.use(errorHandler);
 
 module.exports = Server;

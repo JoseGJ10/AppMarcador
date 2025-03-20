@@ -7,16 +7,6 @@ module.exports = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        gameId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: { model: "games", key: "id" }
-        },
-        playerId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            references: { model: "players", key: "id" }
-        },
         jsonData: {
             type: DataTypes.JSON,
             allowNull: true
