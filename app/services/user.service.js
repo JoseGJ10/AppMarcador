@@ -1,4 +1,5 @@
-const { User } = require('../models/user');
+const bcrypt = require('bcrypt');
+const { User } = require('../models');
 
 async function getAllUsers() {
     try {
@@ -29,10 +30,19 @@ async function getUserByUsername(username) {
 
 async function createUser(userData) {
     try {
-        const user = await User.create(userData);
-        return user;
+
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
+
+
+        const newUser = await User.create({...userData, password : hashedPassword });
+        
+        return newUser;
+
     } catch (error) {
+
         throw new Error("Error creating user: " + error);
+
     }
 };
 
