@@ -1,6 +1,9 @@
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');  // Importamos el modelo de usuario
 const bcrypt = require('bcrypt');  // Para comparar contraseñas
+const dotenv = require('dotenv'); 
+
+dotenv.config();  // Cargamos las variables de entorno               
 
 async function login(req,res,next) {
     try {
