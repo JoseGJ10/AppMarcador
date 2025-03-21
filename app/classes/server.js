@@ -19,8 +19,8 @@ class Server {
 
     routes(){
 
-        this.app.use("/api/users", userRoutes);
-        this.app.use("/api/games", gameRoutes);
+        this.app.use("/api/user", userRoutes);
+        this.app.use("/api/game", gameRoutes);
         this.app.use("/api/home", homeRoutes);
 
     }
