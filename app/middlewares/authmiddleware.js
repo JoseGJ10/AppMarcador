@@ -39,4 +39,25 @@ async function login(req,res,next) {
     }
 };
 
-module.exports = { login };
+async function authenticate (req, res, next) {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+
+    if(!token) {
+        return res.status(401).json({ message: 'Token not provided.' });
+    }
+
+    try {
+        
+        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+        req.user = decoded;
+
+        next();
+
+    } catch (error) {
+        return res.status(error.statusCode).json({ message: 'Token not valid.' });
+    }
+
+}
+
+module.exports = { login, authenticate };
