@@ -1,5 +1,5 @@
 const express = require('express');
-const { userRoutes, gameRoutes, homeRoutes } = require("../routes");
+const { userRoutes, gameRoutes, homeRoutes,roleRoutes } = require("../routes");
 const { sequelize } = require('../models');
 const errorHandler = require('../middlewares/errorHandler');
 class Server {
@@ -10,6 +10,7 @@ class Server {
 
         this.middlewares();
         this.routes();
+        this.errorHandler();
     
     }
 
@@ -22,7 +23,12 @@ class Server {
         this.app.use("/api/user", userRoutes);
         this.app.use("/api/game", gameRoutes);
         this.app.use("/api/home", homeRoutes);
+        this.app.use("/api/rol", roleRoutes);
 
+    }
+
+    errorHandler() {
+        this.app.use(errorHandler);
     }
 
     async start(){
@@ -53,8 +59,5 @@ class Server {
     }
 
 }
-
-const server = new Server();
-server.app.use(errorHandler);
 
 module.exports = Server;
