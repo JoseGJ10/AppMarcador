@@ -50,14 +50,22 @@ async function insertBasicDbData() {
  */
 function applyRelationShip(db){
 
-    db.Role.hasMany(db.User, { foreingKey: 'id_role' , onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
-    db.User.belongsTo(db.Role, { foreingKey: 'id_role' , onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
+    noNullFKCascade = { 
+        onUpdate: "CASCADE",
+        onUpdate: "CASCADE",
+        foreignKey: {
+        allowNull: false 
+        }
+    }
 
-    db.User.hasMany(db.GamePlayer, { foreingKey: 'id_user', onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
-    db.GamePlayer.belongsTo(db.User, { foreingKey: 'id_user' , onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
+    db.Role.hasMany(db.User,noNullFKCascade);
+    db.User.belongsTo(db.Role, noNullFKCascade);
 
-    db.Boardgame.hasMany(db.Game, { foreignKey: "id_boardGame" , onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
-    db.Game.belongsTo(db.Boardgame, { foreignKey: "id_boardGame", onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
+    db.User.hasMany(db.GamePlayer, noNullFKCascade);
+    db.GamePlayer.belongsTo(db.User, noNullFKCascade);
+
+    db.Boardgame.hasMany(db.Game,noNullFKCascade);
+    db.Game.belongsTo(db.Boardgame, noNullFKCascade);
 
 }
 
