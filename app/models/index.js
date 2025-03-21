@@ -50,14 +50,14 @@ async function insertBasicDbData() {
  */
 function applyRelationShip(db){
 
-    db.Role.hasMany(db.User, { foreingKey: 'id_role' });
-    db.User.belongsTo(db.Role, { foreingKey: 'id_role' });
+    db.Role.hasMany(db.User, { foreingKey: 'id_role' , onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
+    db.User.belongsTo(db.Role, { foreingKey: 'id_role' , onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
 
-    db.User.hasMany(db.GamePlayer, { foreingKey: 'id_user' });
-    db.GamePlayer.belongsTo(db.User, { foreingKey: 'id_user' });
+    db.User.hasMany(db.GamePlayer, { foreingKey: 'id_user', onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
+    db.GamePlayer.belongsTo(db.User, { foreingKey: 'id_user' , onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
 
-    db.Boardgame.hasMany(db.Game, { foreignKey: "id_boardGame" });
-    db.Game.belongsTo(db.Boardgame, { foreignKey: "id_boardGame", onDelete: "CASCADE", onUpdate: "CASCADE" });
+    db.Boardgame.hasMany(db.Game, { foreignKey: "id_boardGame" , onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
+    db.Game.belongsTo(db.Boardgame, { foreignKey: "id_boardGame", onDelete: "CASCADE", onUpdate: "CASCADE", allowNull: false });
 
 }
 
