@@ -83,5 +83,4 @@ module.exports = {
     getById,
     update,
     deleteRol
-
 };

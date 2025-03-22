@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');  // Importamos el modelo de usuario
+const { User, Role } = require('../models');  // Importamos el modelo de usuario
 const bcrypt = require('bcrypt');  // Para comparar contraseñas
 const dotenv = require('dotenv'); 
 
@@ -10,7 +10,7 @@ async function login(req,res,next) {
         const { username, password } = req.body;
 
         // Buscamos el usuario en la BBDD
-        const user = await User.findOne({ where: { username: username }});
+        const user = await User.findOne({ where: { username: username }, include:{ model: Role, attributes: ['id_role', 'name'] } });
 
         if (!user) {
             return res.status(401).json({ message: 'user don`t found in database.' });
@@ -27,10 +27,10 @@ async function login(req,res,next) {
         const payload = {
             userId: user.id,
             username: user.username,
-            role: user.role,
+            role: user.Role.name,
         }
 
-        const token = jwt.sign(payload, process.env.JWT_SECRET, {expireIn: process.env.JWT_EXPIRATION,} );
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRATION} );
 
         res.status(200).send({success: true, token});
 
@@ -48,16 +48,31 @@ async function authenticate (req, res, next) {
 
     try {
         
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
         req.user = decoded;
 
         next();
 
     } catch (error) {
-        return res.status(error.statusCode).json({ message: 'Token not valid.' });
+        next (error);
     }
 
 }
 
-module.exports = { login, authenticate };
+const authorization = (...allowRoles) =>{
+
+    return ( req, res, next) => {
+        if (!req.user){
+            return res.status(403   ).json({message: 'Access denied: Authentication required'})
+        }
+        
+        if(!allowRoles.includes(req.user.role)) {
+            return res.status(403).json({ message: 'Unauthorized access' });
+        }
+
+        next();
+    }
+}
+
+module.exports = { login, authenticate, authorization };

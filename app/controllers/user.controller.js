@@ -13,7 +13,7 @@ async function getUsers(req,res,next) {
 
 async function getUserById(req,res,next) {
     try {
-        const user = await userService.getUserById(req.body.id);
+        const user = await userService.getUserById(req.params.id);
         if(!user) return res.status(404).json({success: false, message: 'User not found'});
         res.status(200).json({success: true, data: user});
     } catch (error) {
@@ -21,9 +21,9 @@ async function getUserById(req,res,next) {
     }
 }
 
-async function getUserByUsername(username) {
+async function getUserByUsername(req,res,next) {
     try {
-        const user = await userService.getUserByUsername(username);
+        const user = await userService.getUserByUsername(req.params.username);
         if(!user) return res.status(404).json({success: false, message: 'User not found'});
         res.status(200).json({success: true, data: user});
     } catch (error) {
@@ -40,9 +40,20 @@ async function createUser(req,res,next) {
     }
 }
 
+async function deleteUser(req,res,next) {
+    try {
+        const user = await userService.deleteUser(req.params.id);
+        if(!user) return res.status(404).json({success: false, message: 'User not found'});
+        res.status(200).json({success: true, data: user});
+    } catch (error) {
+        next(error);
+    }
+}
+
 module.exports = {
     getUsers,
     getUserById,
     getUserByUsername,
     createUser,
+    deleteUser
 }

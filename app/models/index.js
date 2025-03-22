@@ -3,8 +3,11 @@ const fs        = require('fs');
 const basename  = path.basename(module.filename);
 const config    = require('../config/config.json');
 const db        = {};
+const dotenv    = require('dotenv');
 
-const env = config['env']
+dotenv.config(); 
+
+const env = process.env.NODE_ENV
 
 const { database, username, password, host, dialect, port } = config[env]
 
@@ -58,6 +61,12 @@ function applyRelationShip(db){
         }
     }
 
+    FKAllownull = {
+        foreignKey: {
+            allowNull: true
+        }
+    }
+
     db.Role.hasMany(db.User,noNullFKCascade);
     db.User.belongsTo(db.Role, noNullFKCascade);
 
@@ -67,6 +76,16 @@ function applyRelationShip(db){
     db.Boardgame.hasMany(db.Game,noNullFKCascade);
     db.Game.belongsTo(db.Boardgame, noNullFKCascade);
 
+    db.User.hasMany(db.Loan,noNullFKCascade);
+    db.Loan.belongsTo(db.User, noNullFKCascade);
+
+    db.Boardgame.hasMany(db.Loan,noNullFKCascade);
+    db.Loan.belongsTo(db.Boardgame, noNullFKCascade);
+
+    db.Event.hasMany(db.Event_Participant,FKAllownull);
+    db.Event_Participant.belongsTo(db.Event,FKAllownull);
+
+    
 }
 
 db.sequelize = sequelize;

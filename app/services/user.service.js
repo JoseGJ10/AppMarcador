@@ -46,9 +46,19 @@ async function createUser(userData) {
     }
 };
 
+
+async function deleteUser(id) {
+    try {
+        await User.destroy({ where: { id } });
+        return { message: 'User deleted successfully' };
+    } catch (error) {
+        throw new Error("Error deleting user by id: " + id);
+    }
+}
 module.exports = {
     getAllUsers,
     getUserById,
     getUserByUsername,
     createUser,
+    deleteUser
 }
