@@ -1,5 +1,5 @@
 const express = require('express');
-const { authRoutes, userRoutes, gameRoutes, homeRoutes,roleRoutes } = require("../routes");
+const { authRoutes, userRoutes, gameRoutes, homeRoutes, roleRoutes, loanRoutes } = require("../routes");
 const { sequelize } = require('../models');
 const errorHandler = require('../middlewares/errorHandler');
 class Server {
@@ -25,6 +25,7 @@ class Server {
         this.app.use("/api/home" , homeRoutes);
         this.app.use("/api/rol"  , roleRoutes);
         this.app.use("/api/user" , userRoutes);
+        this.app.use("/api/loan" , loanRoutes);
 
     }
 
