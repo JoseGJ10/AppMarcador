@@ -1,59 +1,86 @@
 // service/boardgame.service.js
 const { Boardgame } = require('../models'); // Asegúrate de que la ruta al modelo sea correcta
 
-const BoardgameService = {
-  async getAllBoardgames() {
+  async function getAllBoardgames() {
     try {
       const boardgames = await Boardgame.findAll();
       return boardgames;
-    } catch (error) {
-      throw error;
-    }
-  },
 
-  async getBoardgameById(id) {
+    } catch (error) {
+      
+      throw new Error("Error fetching boardgames: " + error);
+    }
+  }
+
+  async function getBoardgameById(id) {
     try {
-      const boardgame = await Boardgame.findByPk(id);
-      return boardgame;
-    } catch (error) {
-      throw error;
-    }
-  },
 
-  async createBoardgame(boardgameData) {
+      const boardgame = await Boardgame.findByPk(id);
+
+      return boardgame;
+
+    } catch (error) {
+
+     throw new Error("Error fetching boardgame: " + error);
+     
+
+    }
+  }
+
+  async function createBoardgame(boardgameData) {
     try {
       const newBoardgame = await Boardgame.create(boardgameData);
+
       return newBoardgame;
-    } catch (error) {
-      throw error;
-    }
-  },
 
-  async updateBoardgame(id, boardgameData) {
+    } catch (error) {
+
+      throw new Error("Error creating boardgame" + error);
+      
+
+    }
+  }
+
+  async function updateBoardgame(id, boardgameData) {
     try {
-      const [updatedRows] = await Boardgame.update(boardgameData, {
-        where: { id_boardGame: id },
-      });
-      if (updatedRows > 0) {
-        const updatedBoardgame = await Boardgame.findByPk(id);
-        return updatedBoardgame;
+      const boardgame = await Boardgame.findByPk(id);
+
+      if (!boardgame) {
+        throw new Error(`Boardgame with ID ${id} not found.`);
       }
-      return null; // Indica que no se encontró el boardgame para actualizar
-    } catch (error) {
-      throw error;
-    }
-  },
 
-  async deleteBoardgame(id) {
+      const updatedBoardgame = await boardgame.update(boardgameData);
+
+        return updatedBoardgame;
+  
+    } catch (error) {
+      throw new Error('Error updating boardgame: '+ error);
+    }
+  }
+
+  async function deleteBoardgame(id) {
     try {
-      const deletedRows = await Boardgame.destroy({
-        where: { id_boardGame: id },
-      });
-      return deletedRows > 0; // Devuelve true si se eliminó el boardgame
-    } catch (error) {
-      throw error;
-    }
-  },
-};
+      const boardgame = await Boardgame.findByPk(id); 
 
-module.exports = BoardgameService;
+      if (!boardgame) {
+        throw new Error(`Boardgame with ID ${id} not found.`);
+      }
+
+      const deleteBoardgame = await boardgame.destroy();
+
+      return deleteBoardgame;
+
+    } catch (error) {
+      
+      throw new Error('Error deleting boardgame: ' + error);
+
+    }
+  }
+
+module.exports = {
+  getAllBoardgames,
+  getBoardgameById,
+  createBoardgame,
+  updateBoardgame,
+  deleteBoardgame,
+};

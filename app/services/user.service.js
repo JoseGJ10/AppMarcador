@@ -3,26 +3,35 @@ const { User } = require('../models');
 
 async function getAllUsers() {
     try {
+
         const users = await User.findAll();
         return users;
+
     } catch (error) {
+
         throw new Error("Error getting users");
+        
     }
 }
 
 async function getUserById(id) {
     try {
+
         const userById = await User.findByPK(id);
         return userById;
+
     } catch (error) {
+
         throw new Error("Error getting user by id: " + id);
     }
 };
 
 async function getUserByUsername(username) {
     try {
+
         const userById = await User.findOne({where: {username: username}});
         return userById;
+
     } catch (error) {
         throw new Error("Error getting user by username: " + username);
     }
@@ -45,7 +54,6 @@ async function createUser(userData) {
 
     }
 };
-
 
 async function deleteUser(id) {
     try {

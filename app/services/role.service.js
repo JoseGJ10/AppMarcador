@@ -31,6 +31,7 @@ const { Role } = require('../models'); // Asegúrate de usar la ruta correcta al
             
             return roles;
         } catch (error) {
+            
             throw new Error("Error getting roles: " + error);
         }
     }
