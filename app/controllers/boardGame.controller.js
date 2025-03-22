@@ -1,16 +1,15 @@
 const BoardgameService = require('../services/boardgame.service');
 
-const BoardgameController = {
-  async getAllBoardgames(req, res) {
+  async function getAllBoardgames(req, res, next) {
     try {
       const boardgames = await BoardgameService.getAllBoardgames();
       res.status(200).json(boardgames);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error);
     }
-  },
+  }
 
-  async getBoardgameById(req, res) {
+  async function getBoardgameById(req, res, next) {
     const { id } = req.params;
     try {
       const boardgame = await BoardgameService.getBoardgameById(id);
@@ -20,21 +19,21 @@ const BoardgameController = {
         res.status(404).json({ message: `Boardgame with ID ${id} not found.` });
       }
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error);
     }
-  },
+  }
 
-  async createBoardgame(req, res) {
+  async function createBoardgame(req, res, next) {
     const boardgameData = req.body;
     try {
       const newBoardgame = await BoardgameService.createBoardgame(boardgameData);
       res.status(201).json(newBoardgame);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error);
     }
-  },
+  }
 
-  async updateBoardgame(req, res) {
+  async function updateBoardgame(req, res, next) {
     const { id } = req.params;
     const boardgameData = req.body;
     try {
@@ -45,23 +44,30 @@ const BoardgameController = {
         res.status(404).json({ message: `Boardgame with ID ${id} not found.` });
       }
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      next(error);
     }
-  },
+  }
 
-  async deleteBoardgame(req, res) {
+  async function deleteBoardgame(req, res, next) {
+
     const { id } = req.params;
-    try {
-      const deleted = await BoardgameService.deleteBoardgame(id);
-      if (deleted) {
-        res.status(204).send(); // Sin contenido, eliminación exitosa
-      } else {
-        res.status(404).json({ message: `Boardgame with ID ${id} not found.` });
-      }
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  },
-};
 
-module.exports = BoardgameController;
+    try {
+
+      const deleted = await BoardgameService.deleteBoardgame(id);
+
+      res.status(204).send(deleted); // Sin contenido, eliminación exitosa
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
+
+module.exports = {
+  getAllBoardgames,
+  getBoardgameById,
+  createBoardgame,
+  updateBoardgame,
+  deleteBoardgame,
+};

@@ -47,6 +47,7 @@ async function getById(req,res,next){
 
  async function update(req,res,next){
     try {
+        
         const role = await RoleService.updateRole(req.params.id, req.body);
         
         if (!role) { 
