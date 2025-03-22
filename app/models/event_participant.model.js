@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
         allowNull: false,
     }
   }, {
-    tableName: "Event_Participants",
+    tableName: "EventParticipants",
     timestamps: true, // Sequelize maneja `createdAt` y `updatedAt` automáticamente
     underscored: false, // Mantiene el formato camelCase en las columnas
   });

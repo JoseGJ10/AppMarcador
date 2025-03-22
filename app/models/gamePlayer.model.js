@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
             defaultValue: false
         }
     }, {
-        tableName: "game_players",
+        tableName: "gamePlayers",
         timestamps: false
     });
 

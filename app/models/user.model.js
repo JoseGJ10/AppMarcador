@@ -8,7 +8,7 @@ module.exports = ( sequelize ) => {
             username: { type: DataTypes.STRING, allowNull: false, unique: true },
             email: { type: DataTypes.STRING, allowNull: false, unique: true },
             password: { type: DataTypes.STRING, allowNull: false },
-            avatar: { type: DataTypes.STRING }, // Ruta de la imagen de perfil
+            avatar: { type: DataTypes.STRING }, 
         },
         {
             tableName: "users",
@@ -18,4 +18,3 @@ module.exports = ( sequelize ) => {
 
     return User;
 };
-

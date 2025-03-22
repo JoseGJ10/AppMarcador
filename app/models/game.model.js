@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
   }, {
-    tableName: "game",
+    tableName: "games",
     timestamps: true, // Sequelize manejará `createdAt` y `updatedAt`
     underscored: false, // Mantiene el formato camelCase en las columnas
   });
