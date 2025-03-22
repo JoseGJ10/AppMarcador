@@ -4,6 +4,7 @@ const gameRoutes = require("./game.routes.js");
 const homeRoutes = require("./home.routes.js");
 const userRoutes = require("./user.routes.js");
 const roleRoutes = require('./role.routes.js');
+const loanRoutes = require("./loan.routes.js");
 
 module.exports = {
     authRoutes,  
@@ -11,5 +12,6 @@ module.exports = {
     gameRoutes,  
     homeRoutes,
     userRoutes,
-    roleRoutes
+    roleRoutes,
+    loanRoutes
  };
