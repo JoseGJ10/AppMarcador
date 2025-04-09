@@ -1,5 +1,5 @@
 // controllers/eventParticipant.controller.js
-const eventParticipantService = require('../services/eventParticipant.service');
+const eventParticipantService = require('../services/event_participant.service.js');
 
 async function createEventParticipant(req, res, next) {
     try {
