@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const eventParticipantController = require('../controllers/eventParticipant.controller');
+const eventParticipantController = require('../controllers/event_participant.controller.js');
 const { authenticate, authorization } = require('../middlewares/authmiddleware');  // Importamos los middleware
 
 router.post('/', authenticate, authorization('admin'), eventParticipantController.createEventParticipant);

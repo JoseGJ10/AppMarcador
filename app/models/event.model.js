@@ -28,7 +28,24 @@ module.exports = (sequelize) => {
     visibility: {
       type: DataTypes.ENUM('public', 'private', 'secret'),
       defaultValue: 'private',
+    },
+    image: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    category: { // Categoria del evento
+      type: DataTypes.ENUM('Torneo', 'Jornadas','Noches de juego','Presentaciones de juegos','Jornadas de puertas abiertas','Taller'),
+      allowNull: false,
+    },
+    link :{ // Enlace a los formularios para apuntarse
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
+    capacity: { // Para los eventos con aforo limitado
+      type: DataTypes.INTEGER,
+      allowNull: true,
     }
+    
   }, {
     tableName: "Events",
     timestamps: true, // Sequelize maneja `createdAt` y `updatedAt` automáticamente
