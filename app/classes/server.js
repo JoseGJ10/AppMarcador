@@ -1,5 +1,17 @@
 const express = require('express');
-const { authRoutes, userRoutes, gameRoutes, homeRoutes, roleRoutes, loanRoutes } = require("../routes");
+const cors = require('cors');
+const { 
+    authRoutes,
+    boardGameRoutes,
+    eventParticipantRoutes,
+    eventRoutes,
+    gameRoutes,
+    gamePlayerRoutes,
+    homeRoutes,
+    loanRoutes,
+    roleRoutes,
+    userRoutes,
+ } = require("../routes");
 const { sequelize } = require('../models');
 const errorHandler = require('../middlewares/errorHandler');
 class Server {
@@ -15,13 +27,18 @@ class Server {
     }
 
     middlewares(){
+        this.app.use(cors()); 
         this.app.use(express.json());
     }
 
     routes(){
 
         this.app.use("/api/auth" , authRoutes);
+        this.app.use("/api/boardgame",boardGameRoutes);
+        this.app.use("/api/eventParticipant",eventParticipantRoutes);
+        this.app.use("/api/event", eventRoutes);
         this.app.use("/api/game" , gameRoutes);
+        this.app.use("/api/gamePlayer",gamePlayerRoutes);
         this.app.use("/api/home" , homeRoutes);
         this.app.use("/api/rol"  , roleRoutes);
         this.app.use("/api/user" , userRoutes);
