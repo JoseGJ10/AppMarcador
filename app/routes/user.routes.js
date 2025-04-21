@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require('../controllers/user.controller');
 const { authenticate, authorization } = require('../middlewares/authmiddleware');
 
-router.get('/', authenticate, authorization('admin'), userController.getUsers);
+router.get('/', authenticate, authorization('admin'), userController.getPaginatedUsers);
 
 router.get('/:id([0-9]+)', authenticate, authorization('admin'), userController.getUserById);
 

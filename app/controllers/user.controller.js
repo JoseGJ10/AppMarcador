@@ -11,6 +11,24 @@ async function getUsers(req,res,next) {
     
 }
 
+async function getPaginatedUsers(req,res,next){
+    try {
+        const { page, pageSize, filtername, filterMail, sortBy, sortDirection } = req.query
+
+        if (isNaN(page) || isNaN(pageSize)){
+            throw new Error("Error al proporcionar la pagina o el tamaño de pagina.");
+        }
+
+        const users = await userService.getPaginatedUsers(page, pageSize, filtername, filterMail, sortBy, sortDirection)
+
+        res.status(200).json({success: true, data: users})
+        
+    } catch (error) {
+        next(error);
+    }
+
+}
+
 async function getUserById(req,res,next) {
     try {
         const user = await userService.getUserById(req.params.id);
@@ -54,6 +72,7 @@ module.exports = {
     getUsers,
     getUserById,
     getUserByUsername,
+    getPaginatedUsers,
     createUser,
     deleteUser
 }

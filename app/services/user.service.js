@@ -14,6 +14,46 @@ async function getAllUsers() {
     }
 }
 
+async function getPaginatedUsers(page, pageSize, username, mail, sortBy, sortDirection) {
+    try {
+        const limit = parseInt(pageSize,10);
+        const offset = 0 + (parseInt(page,10) -1 ) * limit
+        const where = {};
+        const order = [];
+
+        if (username) {
+            where.username = {
+                [Op.like]: `%${username}%`, // Op.iLike para búsqueda insensible a mayúsculas
+            };
+        }
+
+        if (mail) {
+            where.mail = {
+                [Op.like]: `%${mail}%`, // Op.iLike para búsqueda insensible a mayúsculas
+            };
+        }
+
+        // Ordenamiento (si se proporciona)
+        if (sortBy && ['username', 'mail', /* ... otros campos por los que ordenar ... */].includes(sortBy)) {
+            order.push([sortBy, sortDirection === 'desc' ? 'DESC' : 'ASC']);
+        } else {
+            order.push(['username', 'ASC']); // Ordenamiento por defecto
+        }
+
+        const users = await User.findAndCountAll({
+            where,
+            offset,
+            limit,
+            order,
+          });
+
+        return users;
+
+    } catch (error) {
+        throw new Error('Error fetching Users ' + error)
+    }
+}
+
 async function getUserById(id) {
     try {
 
@@ -83,6 +123,7 @@ module.exports = {
     getAllUsers,
     getUserById,
     getUserByUsername,
+    getPaginatedUsers,
     createUser,
     deleteUser,
     countUsers
