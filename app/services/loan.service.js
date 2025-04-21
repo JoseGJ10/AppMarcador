@@ -91,10 +91,23 @@ async function deleteLoan (id) {
   }
 };
 
+async function countLoans(){
+    try {
+        const loans = await Loan.count();
+
+        return loans;
+
+    } catch (error) {
+        throw new Error("Error count loans");
+        
+    }
+}
+
 module.exports = { 
     createLoan, 
     getAllLoans, 
     getLoanById, 
     updateLoan, 
-    deleteLoan 
+    deleteLoan,
+    countLoans
   };

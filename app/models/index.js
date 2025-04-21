@@ -14,7 +14,7 @@ const { database, username, password, host, dialect, port } = config[env]
 const { Sequelize, Op, Model, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(database, username, password, {
-	logging: false,
+	logging: true,
 	host, port, dialect,
 	dialectOptions: {
 		multipleStatements: true

@@ -56,4 +56,15 @@ async function deleteEvent(eventId) {
     }
 }
 
-module.exports = { createEvent, getAllEvents, getEventById, updateEvent, deleteEvent };
+async function countEvents(){
+    try {
+        const events = await Event.count();
+
+        return events;
+
+    } catch (error) {
+        throw new Error('Error count events: ' + error.message);
+    }
+}
+
+module.exports = { createEvent, getAllEvents, getEventById, updateEvent, deleteEvent, countEvents };

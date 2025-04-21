@@ -63,10 +63,27 @@ async function deleteUser(id) {
         throw new Error("Error deleting user by id: " + id);
     }
 }
+
+async function countUsers() {
+    try {
+        
+        const users = await User.count();
+
+        return users;
+
+    } catch (error) {
+
+        throw new Error("Error count users.");
+        
+    }
+    
+}
+
 module.exports = {
     getAllUsers,
     getUserById,
     getUserByUsername,
     createUser,
-    deleteUser
+    deleteUser,
+    countUsers
 }

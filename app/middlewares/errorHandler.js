@@ -9,7 +9,7 @@ function errorHandler(err, req, res, next) {
         message = 'Validation error: ' + Object.values(err.errors).map(e => e.message).join(', ');
     }
 
-    if (err.name === 'UnauthorizedError') {
+    if (err.name === 'UnauthorizedError' || err.name === 'TokenExpiredError') {
         statusCode = 401;
         message = 'Unauthorized. Please check your access token.';
     }
@@ -17,6 +17,8 @@ function errorHandler(err, req, res, next) {
     if (err.message.includes('Access denied') || err.message.includes('Unauthorized access')) {
         statusCode = 403;
     }
+
+
 
     const stack = process.env.NODE_ENV === 'development' ? err.stack : null;
 

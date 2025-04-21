@@ -1,9 +1,35 @@
 // service/boardgame.service.js
-const { Boardgame } = require('../models'); // Asegúrate de que la ruta al modelo sea correcta
+const { Boardgame } = require('../models');
+const { Op, NotNull } = require('sequelize'); // Asegúrate de que la ruta al modelo sea correcta
 
-  async function getAllBoardgames() {
+  async function getPaginatedBoardgames(page, pageSize,name, sortBy, sortDirection) {
     try {
-      const boardgames = await Boardgame.findAll();
+      const limit = parseInt(pageSize,10);
+      const offset = 0 + (parseInt(page,10) -1 ) * limit
+      const where = {};
+      const order = [];
+
+      if (name) {
+        where.name = {
+          [Op.like]: `%${name}%`, // Op.iLike para búsqueda insensible a mayúsculas
+        };
+      }
+
+      // Ordenamiento (si se proporciona)
+      if (sortBy && ['name', 'genre', /* ... otros campos por los que ordenar ... */].includes(sortBy)) {
+        order.push([sortBy, sortDirection === 'desc' ? 'DESC' : 'ASC']);
+      } else {
+        order.push(['name', 'ASC']); // Ordenamiento por defecto
+      }
+
+
+      const boardgames = await Boardgame.findAndCountAll({
+        where,
+        offset,
+        limit,
+        order,
+      });
+
       return boardgames;
 
     } catch (error) {
@@ -12,6 +38,31 @@ const { Boardgame } = require('../models'); // Asegúrate de que la ruta al mode
     }
   }
 
+  async function getAllBoardgames(){
+    try {
+        const boardGames = await Boardgame.findAll();
+
+        return boardGames;
+
+    } catch (error) {
+        throw new Error('Error Get all BoardGames.')
+    }
+  }
+
+  async function getAllBoardGamesImagesFromDB(){
+    try {
+      
+        const boardgames = await Boardgame.findAll({
+          attributes: ['mainImage'],
+          where: {mainImage: { [Op.not]: null } }
+        })
+
+        // return boardgames.map(boardgame => boardgame.mainImage).filter(img => !!img);
+        return boardgames.map(boardgame => boardgame.mainImage);
+    } catch (error) {
+        throw new Error("Error fetching images from boardgame Table.");
+    }
+  }
   async function getBoardgameById(id) {
     try {
 
@@ -77,10 +128,23 @@ const { Boardgame } = require('../models'); // Asegúrate de que la ruta al mode
     }
   }
 
+  async function countGames(){
+    try {
+        const boardGames = Boardgame.count();
+
+        return boardGames;
+    } catch (error) {
+      throw new Error('Error count boardgames: ' + error);
+    }
+  }
+
 module.exports = {
   getAllBoardgames,
+  getPaginatedBoardgames,
   getBoardgameById,
+  getAllBoardGamesImagesFromDB,
   createBoardgame,
   updateBoardgame,
   deleteBoardgame,
+  countGames
 };

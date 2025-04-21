@@ -14,6 +14,9 @@ const {
  } = require("../routes");
 const { sequelize } = require('../models');
 const errorHandler = require('../middlewares/errorHandler');
+const bodyParser = require('body-parser')
+const path = require('path');
+
 class Server {
 
     constructor(){
@@ -28,11 +31,16 @@ class Server {
 
     middlewares(){
         this.app.use(cors()); 
-        this.app.use(express.json());
+        this.app.use(bodyParser.urlencoded({extended: false}));
+        this.app.use(bodyParser.json());
+
+        // Para poder servir las imagenes de subidas al front End
+        this.app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
     }
 
     routes(){
 
+        // Importamos las rutas para el front end.
         this.app.use("/api/auth" , authRoutes);
         this.app.use("/api/boardgame",boardGameRoutes);
         this.app.use("/api/eventParticipant",eventParticipantRoutes);
@@ -46,10 +54,12 @@ class Server {
 
     }
 
+    // Con esta función gestionamos los errores del backend.
     errorHandler() {
         this.app.use(errorHandler);
     }
 
+    // Inicializamos la bbdd y el servidor
     async start(){
 
         try {
