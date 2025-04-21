@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const { User } = require('../models');
+const { Op } = require('sequelize');
 
 async function getAllUsers() {
     try {
@@ -57,7 +58,7 @@ async function getPaginatedUsers(page, pageSize, username, mail, sortBy, sortDir
 async function getUserById(id) {
     try {
 
-        const userById = await User.findByPK(id);
+        const userById = await User.findByPk(id);
         return userById;
 
     } catch (error) {
