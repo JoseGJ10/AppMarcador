@@ -58,6 +58,20 @@ async function createUser(req,res,next) {
     }
 }
 
+async function updateUser(req, res, next) {
+    try {
+        const { id } = req.params;
+        const userData = req.body;
+
+        const updateUser = await userService.updateUser(id, userData);
+
+        res.status(200).json({success: true, data: updateUser});
+
+    } catch (error) {
+        next(error);
+    }
+}
+
 async function deleteUser(req,res,next) {
     try {
         const user = await userService.deleteUser(req.params.id);
@@ -73,6 +87,7 @@ module.exports = {
     getUserById,
     getUserByUsername,
     getPaginatedUsers,
+    updateUser,
     createUser,
     deleteUser
 }

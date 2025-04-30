@@ -96,6 +96,24 @@ async function createUser(userData) {
     }
 };
 
+async function updateUser(id, userData) {
+    try {
+        
+        const user = await user.findByPk(id);
+    
+        if(! user){
+            throw new Error(`User with ID ${id} not found.`)
+        }
+    
+        const updateUser = await user.update(userData);
+    
+        return updateUser
+
+    } catch (error) {
+        throw new Error('Error updating user.')
+    }
+}
+
 async function deleteUser(id) {
     try {
         await User.destroy({ where: { id } });
@@ -125,6 +143,7 @@ module.exports = {
     getUserById,
     getUserByUsername,
     getPaginatedUsers,
+    updateUser,
     createUser,
     deleteUser,
     countUsers
