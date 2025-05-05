@@ -35,7 +35,7 @@ async function getPaginatedUsers(page, pageSize, username, mail, sortBy, sortDir
         }
 
         // Ordenamiento (si se proporciona)
-        if (sortBy && ['username', 'mail', /* ... otros campos por los que ordenar ... */].includes(sortBy)) {
+        if (sortBy && ['username', 'email', 'id_user','RoleIdRole'].includes(sortBy)) {
             order.push([sortBy, sortDirection === 'desc' ? 'DESC' : 'ASC']);
         } else {
             order.push(['username', 'ASC']); // Ordenamiento por defecto
