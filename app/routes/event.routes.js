@@ -4,7 +4,7 @@ const router = express.Router();
 const eventController = require('../controllers/event.controller');
 const { authenticate, authorization } = require('../middlewares/authmiddleware'); // Middleware de autenticación
 
-router.get('/', eventController.getAllEvents);
+router.get('/', eventController.getPaginatedEvents);
 
 router.get('/:id', authenticate, eventController.getEventById);
 

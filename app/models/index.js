@@ -14,7 +14,7 @@ const { database, username, password, host, dialect, port } = config[env]
 const { Sequelize, Op, Model, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(database, username, password, {
-	logging: true,
+	logging: false,
 	host, port, dialect,
 	dialectOptions: {
 		multipleStatements: true
@@ -36,7 +36,7 @@ Object.keys(db).forEach(function(modelName) {
 
 applyRelationShip(db);
 
- sequelize.sync({ alter: false }).then( ()=>{
+ sequelize.sync({ alter: true }).then( ()=>{
     console.log('Tables created');
 }).catch( err => {
     console.error('Unable to create tables:', err);
@@ -53,7 +53,7 @@ async function insertBasicDbData() {
  */
 function applyRelationShip(db){
 
-    noNullFKCascade = { 
+    let noNullFKCascade = { 
         onUpdate: "CASCADE",
         onUpdate: "CASCADE",
         foreignKey: {
@@ -61,7 +61,7 @@ function applyRelationShip(db){
         }
     }
 
-    FKAllownull = {
+    let FKAllownull = {
         foreignKey: {
             allowNull: true
         }
@@ -84,7 +84,6 @@ function applyRelationShip(db){
 
     db.Event.hasMany(db.Event_Participant,FKAllownull);
     db.Event_Participant.belongsTo(db.Event,FKAllownull);
-
     
 }
 

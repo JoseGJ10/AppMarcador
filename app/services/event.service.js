@@ -1,5 +1,7 @@
 // services/event.service.js
 const { Event } = require('../models'); // Importamos el modelo de Event
+const { Op } = require('sequelize');
+
 async function createEvent(eventData) {
     try {
         const event = await Event.create(eventData);
@@ -15,6 +17,47 @@ async function getAllEvents() {
         return events;
     } catch (error) {
         throw new Error('Error fetching events: ' + error.message);
+    }
+}
+
+async function getPaginatedEvents(page, pageSize, eventTitle, date, sortBy, sortDirection){
+    try {
+        const limit = parseInt(pageSize,10);
+        const offset = 0 + (parseInt(page,10) -1 ) * limit
+        const where = {};
+        const order = [];
+
+        const columnsList = ['id_event','name','location','category','capacity']
+
+        if (eventTitle){
+            where.title = {
+                [Op.like]: `%${eventTitle}%`
+            };
+        }
+
+        if(date){
+            where.date = date;
+        }
+
+        if (sortBy && columnsList.includes(sortBy)){
+            order.push([sortBy, sortDirection === 'desc' ? 'DESC' : 'ASC']);
+        }
+
+        if (order.length == 0){
+            order.push(['name', 'ASC']);
+        }
+
+        const events = await Event.findAndCountAll({
+            where,
+            offset,
+            limit,
+            order,
+        });
+
+        return events;
+
+    } catch (error) {
+        throw new Error("Error Fetching paginated Events: " + error.message);
     }
 }
 
@@ -67,4 +110,12 @@ async function countEvents(){
     }
 }
 
-module.exports = { createEvent, getAllEvents, getEventById, updateEvent, deleteEvent, countEvents };
+module.exports = { 
+    createEvent, 
+    getAllEvents, 
+    getEventById, 
+    updateEvent, 
+    deleteEvent, 
+    countEvents,
+    getPaginatedEvents 
+};

@@ -18,8 +18,15 @@ module.exports = (sequelize) => {
       allowNull: true,
     },
     date: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
+    },
+    time: {
+      type: DataTypes.TIME,
+      allowNull: false,
+      validate: {
+        is: /^([01]\d|2[0-3]):([0-5]\d)(:([0-5]\d))?$/ // Regex para HH:MM o HH:MM:SS
+      }
     },
     location: {
       type: DataTypes.STRING(255),

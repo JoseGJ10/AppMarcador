@@ -28,6 +28,24 @@ async function getAllEvents(req, res, next) {
     }
 }
 
+async function getPaginatedEvents(req,res,next){
+    try {
+        
+        const {page, pageSize, filterName, filterDate, sortBy, sortDirection} = req.query;
+
+        if(isNaN(page) || isNaN(pageSize)){
+            throw new Error("Error to get page or page Size.");
+        }
+
+        const events = await eventService.getPaginatedEvents(page, pageSize, filterName, filterDate, sortBy, sortDirection)
+
+        res.status(200).json({success: true, data: events});
+
+    } catch (error) {
+        next(error);
+    }
+}
+
 async function getEventById(req, res, next) {
     try {
         const eventId = req.params.id;
@@ -59,4 +77,10 @@ async function deleteEvent(req, res, next) {
     }
 }
 
-module.exports = { createEvent, getAllEvents, getEventById, updateEvent, deleteEvent };
+module.exports = { 
+    createEvent, 
+    getAllEvents, 
+    getEventById,
+    getPaginatedEvents,
+    updateEvent, 
+    deleteEvent };
