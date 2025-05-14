@@ -10,6 +10,8 @@ const storage = multer.diskStorage({
         folder = path.join(__dirname, '..', 'uploads', 'profiles');
     } else if (req.originalUrl.includes('/boardgame')) {
         folder = path.join(__dirname, '..', 'uploads', 'boardgames');
+    } else if (req.originalUrl.includes('/event')){
+        folder = path.join(__dirname,'..','uploads','events');
     }
 
     // Verifica que exista, si no, créalo

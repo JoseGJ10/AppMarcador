@@ -34,9 +34,6 @@ const auditImages = async (req, res, next) => {
 
         const unUsedFiles = allFiles.filter(file => !usedImages.includes(path.basename(file)));
 
-        console.log('Imágenes huérfanas:', unUsedFiles);
-        console.log('Total Imágenes huérfanas:', unUsedFiles.length);
-
         res.status(200).json(unUsedFiles)
         
     } catch (error) {
