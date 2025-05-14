@@ -1,13 +1,16 @@
 // controllers/event.controller.js
 const eventService = require('../services/event.service');
+
 async function createEvent(req, res, next) {
     try {
 
-        const eventData = req.body;
+        const {name,description,date,time,location,visibility,category,link,capacity} = req.body;
 
-        const event = await eventService.createEvent(eventData);
+        const image =  req.file ? req.file.filename : null;
 
-        res.status(201).json({ success: true, event });
+        const event = await eventService.createEvent({name,description,date,time,location,visibility,category,link,capacity,image});
+
+        res.status(201).json({ success: true, data: event });
 
     } catch (error) {
         throw new Error("Error creating event: " + error );
@@ -20,7 +23,7 @@ async function getAllEvents(req, res, next) {
     
         const events = await eventService.getAllEvents();
     
-        res.status(200).json({ success: true, events });
+        res.status(200).json({ success: true, data: events });
 
     } catch (error) {
         throw new Error("Error fetching events: " + error);
@@ -31,10 +34,13 @@ async function getAllEvents(req, res, next) {
 async function getPaginatedEvents(req,res,next){
     try {
         
-        const {page, pageSize, filterName, filterDate, sortBy, sortDirection} = req.query;
+        let {page, pageSize, filterName, filterDate, sortBy, sortDirection} = req.query;
 
-        if(isNaN(page) || isNaN(pageSize)){
-            throw new Error("Error to get page or page Size.");
+        if(isNaN(page)){
+            page = 1
+        } 
+        if(isNaN(pageSize)){
+            pageSize = 10
         }
 
         const events = await eventService.getPaginatedEvents(page, pageSize, filterName, filterDate, sortBy, sortDirection)
@@ -50,7 +56,7 @@ async function getEventById(req, res, next) {
     try {
         const eventId = req.params.id;
         const event = await eventService.getEventById(eventId);
-        res.status(200).json({ success: true, event });
+        res.status(200).json({ success: true, data: event });
     } catch (error) {
         next(error);
     }
@@ -58,12 +64,25 @@ async function getEventById(req, res, next) {
 
 async function updateEvent(req, res, next) {
     try {
+        let event;
         const eventId = req.params.id;
-        const eventData = req.body;
-        const event = await eventService.updateEvent(eventId, eventData);
-        res.status(200).json({ success: true, event });
+        
+        const {name,description,date,time,location,visibility,category,link,capacity} = req.body;
+        
+        const image =  req.file ? req.file.filename : null;
+
+        if (image !== null){
+            event = await eventService.updateEvent(eventId, {name,description,date,time,location,visibility,category,link,capacity,image});
+        } else {
+            event = await eventService.updateEvent(eventId, {name,description,date,time,location,visibility,category,link,capacity});
+        }
+        
+        res.status(200).json({ success: true, data: event });
+
     } catch (error) {
+        
         next(error);
+        
     }
 }
 
