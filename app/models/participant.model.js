@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    const GamePlayer = sequelize.define("GamePlayer", {
-        id: {
+    const Participant = sequelize.define("Participant", {
+        id_participant: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
@@ -20,9 +20,9 @@ module.exports = (sequelize) => {
             defaultValue: false
         }
     }, {
-        tableName: "gamePlayers",
-        timestamps: false
+        tableName: "participants",
+        timestamps: true
     });
 
-    return GamePlayer;
+    return Participant;
 };

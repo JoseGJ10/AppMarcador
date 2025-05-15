@@ -5,10 +5,10 @@ const {
     boardGameRoutes,
     eventParticipantRoutes,
     eventRoutes,
-    gameRoutes,
-    gamePlayerRoutes,
     homeRoutes,
     loanRoutes,
+    matchRoutes,
+    participantRoutes,
     roleRoutes,
     userRoutes,
  } = require("../routes");
@@ -45,8 +45,8 @@ class Server {
         this.app.use("/api/boardgame",boardGameRoutes);
         this.app.use("/api/eventParticipant",eventParticipantRoutes);
         this.app.use("/api/event", eventRoutes);
-        this.app.use("/api/game" , gameRoutes);
-        this.app.use("/api/gamePlayer",gamePlayerRoutes);
+        this.app.use("/api/match" , matchRoutes);
+        this.app.use("/api/participants",participantRoutes);
         this.app.use("/api/home" , homeRoutes);
         this.app.use("/api/rol"  , roleRoutes);
         this.app.use("/api/user" , userRoutes);

@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize"); // Asegúrate de importar tu instancia de Sequelize
 
 module.exports = (sequelize) => {
-  const Game = sequelize.define("Game", {
-    id_game: {
+  const Match = sequelize.define("Match", {
+    id_match: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
@@ -26,12 +26,12 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
   }, {
-    tableName: "games",
+    tableName: "matches",
     timestamps: true, // Sequelize manejará `createdAt` y `updatedAt`
     underscored: false, // Mantiene el formato camelCase en las columnas
   });
 
-  return Game;
+  return Match;
 
 }
 

@@ -67,17 +67,22 @@ function applyRelationShip(db){
         }
     }
 
+    /** Asociamos user con rol para el login y la gestion de permisos. */
     db.Role.hasMany(db.User,noNullFKCascade);
     db.User.belongsTo(db.Role, noNullFKCascade);
 
-    db.User.hasMany(db.GamePlayer, noNullFKCascade);
-    db.GamePlayer.belongsTo(db.User, noNullFKCascade);
+    /** Los usuarios pueden particioar en las partidas. */
+    db.User.hasMany(db.Participant, noNullFKCascade);
+    db.Participant.belongsTo(db.User, noNullFKCascade);
 
-    db.Boardgame.hasMany(db.Game,noNullFKCascade);
-    db.Game.belongsTo(db.Boardgame, noNullFKCascade);
+    /** Una partida se jugara sobre 1 juego seleccionado. */
+    db.Boardgame.hasMany(db.Match,noNullFKCascade);
+    db.Match.belongsTo(db.Boardgame, noNullFKCascade);
 
+    /**  */
     db.User.hasMany(db.Loan,noNullFKCascade);
     db.Loan.belongsTo(db.User, noNullFKCascade);
+
 
     db.Boardgame.hasMany(db.Loan,noNullFKCascade);
     db.Loan.belongsTo(db.Boardgame, noNullFKCascade);
