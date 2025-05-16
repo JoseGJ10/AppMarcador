@@ -6,7 +6,7 @@ const { authenticate, authorization } = require('../middlewares/authmiddleware')
 // Rutas para GamePlayer
 
 // Crear un GamePlayer
-router.post('/', authenticate, participantController.createParticipant);
+router.post('/', authenticate,authorization(['admin','moderator','gameLibrarian','user']), participantController.createParticipant);
 
 // Obtener los GamePlayers de un juego
 router.get('/match/:matchId', authenticate, participantController.getParticipantsByMatchId);
