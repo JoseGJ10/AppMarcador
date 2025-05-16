@@ -1,8 +1,8 @@
 const { Match } = require('../models');
 
-  async function createMatch(name, date) {
+  async function createMatch(name, date, BoardgameIdBoardGame ) {
     try {
-      const match = await Match.create({ name, date });
+      const match = await Match.create({ name, date, BoardgameIdBoardGame   });
 
       return match;
 

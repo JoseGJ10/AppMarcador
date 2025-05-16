@@ -2,9 +2,9 @@ const MatchService = require('../services/match.service');
 
   async function createMatch(req, res, next) {
     try {
-      const { name, date } = req.body;
+      const { name, date, boardgameId } = req.body;
 
-      const game = await MatchService.createMatch(name, date);
+      const game = await MatchService.createMatch(name, date, boardgameId);
 
       return res.status(201).json({ success: true, game });
 

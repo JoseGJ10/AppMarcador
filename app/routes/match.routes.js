@@ -6,7 +6,7 @@ const { authenticate, authorization } = require('../middlewares/authmiddleware')
 // Rutas para Game
 
 // Crear un juego (solo usuarios autenticados pueden crear juegos)
-router.post('/', authenticate, matchController.createMatch);
+router.post('/', authenticate,authorization('admin','moderator','gameLibrarian','user'), matchController.createMatch);
 
 // Obtener todos los juegos
 router.get('/', authenticate, matchController.getAllMatches);
