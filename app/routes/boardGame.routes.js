@@ -6,6 +6,8 @@ const { uploadSingle } = require('../middlewares/uploadMiddleware.js')
 
 router.get('/', BoardgameController.getPaginatedBoardgames);
 
+router.get('/all', BoardgameController.gatAllBoardGames);
+
 router.get('/:id', BoardgameController.getBoardgameById);
 
 router.post('/', authenticate, authorization('admin'),uploadSingle('mainImage'), BoardgameController.createBoardgame);

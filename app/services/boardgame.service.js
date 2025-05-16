@@ -38,9 +38,16 @@ const { Op, NotNull } = require('sequelize'); // Asegúrate de que la ruta al mo
     }
   }
 
-  async function getAllBoardgames(){
+  async function getAllBoardgames(atributes){
     try {
-        const boardGames = await Boardgame.findAll();
+
+        const order = [];
+        order.push(['name','ASC'])
+
+        const boardGames = await Boardgame.findAll({
+            attributes: atributes,
+            order 
+        });
 
         return boardGames;
 

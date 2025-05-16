@@ -20,6 +20,26 @@ const BoardgameService = require('../services/boardgame.service');
     }
   }
 
+  async function gatAllBoardGames(req, res, next) {
+      try {
+
+          let atributes = ['id_boardGame','name']
+
+
+          if (req.body){
+             atributes = req.body?.atributes
+          }
+
+
+          const AllBoardGames = await BoardgameService.getAllBoardgames( atributes );
+
+          res.status(200).json({success: true, data: AllBoardGames})
+
+      } catch (error) {
+        next (error)
+      }
+  }
+
   async function getBoardgameById(req, res, next) {
     const { id } = req.params;
     try {
@@ -111,8 +131,8 @@ const BoardgameService = require('../services/boardgame.service');
 
 
 module.exports = {
-  // ToDo getAllBoardgames,
   getPaginatedBoardgames,
+  gatAllBoardGames,
   getBoardgameById,
   createBoardgame,
   updateBoardgame,
