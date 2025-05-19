@@ -1,4 +1,4 @@
-const { Match } = require('../models');
+const { Match, Participant } = require('../models');
 
   async function createMatch(name, date, BoardgameIdBoardGame ) {
     try {
@@ -16,7 +16,7 @@ const { Match } = require('../models');
   async function getAllMatches() {
     try {
 
-      const matches = await Match.findAll();
+      const matches = await Match.findAll({ include: {model: Participant} });
 
       return matches;
 
@@ -29,7 +29,7 @@ const { Match } = require('../models');
 
   async function getMatchById(id) {
     try {
-      const match = await Match.findByPk(id);
+      const match = await Match.findByPk(id, { include: {model: Participant} });
 
       if (!match) {
         throw new Error('Match not found');

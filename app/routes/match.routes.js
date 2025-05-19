@@ -11,6 +11,7 @@ router.post('/', authenticate,authorization('admin','moderator','gameLibrarian',
 // Obtener todos los juegos
 router.get('/', authenticate, matchController.getAllMatches);
 
+
 // Obtener un juego por ID
 router.get('/:id', authenticate, matchController.getMatchById);
 

@@ -2,10 +2,10 @@ const bcrypt = require('bcrypt');
 const { User } = require('../models');
     const { Op } = require('sequelize');
 
-async function getAllUsers() {
+async function getAllUsers(attributes) {
     try {
 
-        const users = await User.findAll();
+        const users = await User.findAll({attributes});
         return users;
 
     } catch (error) {
