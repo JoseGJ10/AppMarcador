@@ -75,6 +75,10 @@ function applyRelationShip(db){
     db.User.hasMany(db.Participant, noNullFKCascade);
     db.Participant.belongsTo(db.User, noNullFKCascade);
 
+    /** El participante esta asociado a una partida */
+    db.Match.hasMany(db.Participant, noNullFKCascade);
+    db.Participant.belongsTo(db.Match, noNullFKCascade);
+
     /** Una partida se jugara sobre 1 juego seleccionado. */
     db.Boardgame.hasMany(db.Match,noNullFKCascade);
     db.Match.belongsTo(db.Boardgame, noNullFKCascade);
