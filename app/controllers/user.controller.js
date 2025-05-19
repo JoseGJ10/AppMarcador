@@ -3,7 +3,12 @@ const userService = require('../services/user.service');
 
 async function getUsers(req,res,next) {
     try {
-        const users = await userService.getAllUsers();
+        let atributes = ['id_user','name']
+
+        if (req.body){
+            atributes = req.body?.atributes
+        }
+        const users = await userService.getAllUsers(atributes);
         res.status(200).json({success: true, data: users});
     } catch (error) {
         next (error);

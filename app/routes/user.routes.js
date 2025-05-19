@@ -6,6 +6,8 @@ const { uploadSingle } = require('../middlewares/uploadMiddleware.js')
 
 router.get('/', authenticate, authorization('admin'), userController.getPaginatedUsers);
 
+router.get('/all', authenticate, userController.getUsers);
+
 router.get('/:id([0-9]+)', authenticate, authorization('admin'), userController.getUserById);
 
 router.get('/:username', authenticate, authorization('admin', 'user'), userController.getUserByUsername);
