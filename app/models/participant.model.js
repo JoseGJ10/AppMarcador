@@ -19,7 +19,14 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         }
-    }, {
+    },{
+        indexes: [
+            {
+            unique: true,
+            fields: ['id_partida', 'id_jugador']
+            }
+        ]
+    },{
         tableName: "participants",
         timestamps: true
     });
