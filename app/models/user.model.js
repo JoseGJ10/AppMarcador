@@ -6,6 +6,7 @@ module.exports = ( sequelize ) => {
         {
             id_user: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
             username: { type: DataTypes.STRING, allowNull: false, unique: true },
+            name: {type: DataTypes.STRING, allowNull: false},
             email: { type: DataTypes.STRING, allowNull: false, unique: true },
             password: { type: DataTypes.STRING, allowNull: false },
             avatar: { type: DataTypes.STRING }, 

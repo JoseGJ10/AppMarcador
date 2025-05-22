@@ -3,7 +3,7 @@ const userService = require('../services/user.service');
 
 async function getUsers(req,res,next) {
     try {
-        let atributes = ['id_user','name']
+        let atributes = ['id_user','username','name']
 
         if (req.body){
             atributes = req.body?.atributes
