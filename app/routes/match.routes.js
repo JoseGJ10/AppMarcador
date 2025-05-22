@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const matchController = require('../controllers/match.controller');
+const participantController = require('../controllers/participant.controller')
 const { authenticate, authorization } = require('../middlewares/authmiddleware');
 
 // Rutas para Game
@@ -8,14 +9,16 @@ const { authenticate, authorization } = require('../middlewares/authmiddleware')
 // Crear un juego (solo usuarios autenticados pueden crear juegos)
 router.post('/', authenticate,authorization('admin','moderator','gameLibrarian','user'), matchController.createMatch);
 
+// Añadimos Participante a la partida
+router.post('/participant/add', authenticate, participantController.createParticipant);
+
 // Obtener todos los juegos
 router.get('/', authenticate, matchController.getAllMatches);
 
-
-// Obtener un juego por ID
+// Obtener una partida por ID
 router.get('/:id', authenticate, matchController.getMatchById);
 
-// Actualizar un juego por ID (solo usuarios autenticados pueden actualizar juegos)
+// Actualizar una partida por ID (solo usuarios autenticados pueden actualizar juegos)
 router.put('/:id', authenticate, matchController.updateMatch);
 
 // Eliminar un juego por ID (solo usuarios autenticados pueden eliminar juegos)

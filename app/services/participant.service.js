@@ -1,4 +1,4 @@
-const { Participant } = require('../models');
+const { Participant, User } = require('../models');
 
   async function createParticipant(participantData) {
 
@@ -18,7 +18,7 @@ const { Participant } = require('../models');
   async function getParticipantsByMatchId(matchId) {
     try {
 
-      const participants = await Participant.findAll({ where: { matchId } });
+      const participants = await Participant.findAll({ where: { matchId }, include: { model: user}  });
 
       return participants;
 
@@ -33,7 +33,7 @@ const { Participant } = require('../models');
 
     try {
 
-      const participant = await Participant.findByPk(id);
+      const participant = await Participant.findByPk(id, { include: { model: user}  });
 
       if (!participant) {
 
