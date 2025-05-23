@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
         indexes: [
             {
             unique: true,
-            fields: ['id_partida', 'id_jugador']
+            fields: ['UserIdUser', 'MatchIdMatch']
             }
         ]
     },{
