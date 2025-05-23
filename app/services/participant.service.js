@@ -10,7 +10,7 @@ const { Participant, User } = require('../models');
 
     } catch (error) {
 
-      throw new Error('Error creating game player: ' + error.message);
+      throw new Error( 'Error Create Partacipant: ' + error.message );
 
     }
   }
