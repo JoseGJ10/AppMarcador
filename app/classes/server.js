@@ -3,6 +3,7 @@ const cors = require('cors');
 const { 
     authRoutes,
     boardGameRoutes,
+    contactRoutes,
     eventParticipantRoutes,
     eventRoutes,
     homeRoutes,
@@ -43,14 +44,15 @@ class Server {
         // Importamos las rutas para el front end.
         this.app.use("/api/auth" , authRoutes);
         this.app.use("/api/boardgame",boardGameRoutes);
+        this.app.use("/api/contact", contactRoutes);
         this.app.use("/api/eventParticipant",eventParticipantRoutes);
         this.app.use("/api/event", eventRoutes);
+        this.app.use("/api/home" , homeRoutes);
+        this.app.use("/api/loan" , loanRoutes);
         this.app.use("/api/match" , matchRoutes);
         this.app.use("/api/participants",participantRoutes);
-        this.app.use("/api/home" , homeRoutes);
         this.app.use("/api/rol"  , roleRoutes);
         this.app.use("/api/user" , userRoutes);
-        this.app.use("/api/loan" , loanRoutes);
 
     }
 
