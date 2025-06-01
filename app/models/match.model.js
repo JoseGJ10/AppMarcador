@@ -29,6 +29,14 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING(255),
       allowNull: false,
     },
+    comments: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    closed: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   }, {
     tableName: "matches",
     timestamps: true, // Sequelize manejará `createdAt` y `updatedAt`

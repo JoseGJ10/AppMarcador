@@ -1,8 +1,8 @@
-const { Match, Participant, User } = require('../models');
+const { Match, Participant, User, Boardgame } = require('../models');
 
-  async function createMatch(name, date, BoardgameIdBoardGame ) {
+  async function createMatch(name, date, BoardgameIdBoardGame, time ) {
     try {
-      const match = await Match.create({ name, date, BoardgameIdBoardGame   });
+      const match = await Match.create({ name, date, BoardgameIdBoardGame, time  });
 
       return match;
 
@@ -17,12 +17,14 @@ const { Match, Participant, User } = require('../models');
     try {
 
       const matches = await Match.findAll({ include:[
-                                                    {model: Participant,
+                                                      {
+                                                        model: Participant,
                                                         include: [{
                                                           model:User,
                                                           attributes: ['name','username']
                                                         }]
-                                                      }
+                                                      },
+                                                      {model: Boardgame, attributes: ['id_boardGame','name','min_players','max_players']}
                                                     ]});
 
       return matches;
@@ -34,15 +36,38 @@ const { Match, Participant, User } = require('../models');
     }
   }
 
+  async function getOpenMatches(){
+    try {
+        const matches = await Match.findAll({
+                        where: { closed: false},
+                        include:[
+                                  {model: Participant,
+                                    include: [{
+                                      model:User,
+                                      attributes: ['name','username']
+                                    }]
+                                  },
+                                  {model: Boardgame, attributes: ['id_boardGame','name','min_players','max_players']}
+                                ]
+  })
+
+        return matches
+    } catch (error) {
+        throw new Error("Error getting open Matches: " + error.message);
+    }
+  }
+
   async function getMatchById(id) {
     try {
       const match = await Match.findByPk(id,{ include:[
-                                                    {model: Participant,
-                                                        include: [{
-                                                          model:User,
-                                                          attributes: ['name','username']
-                                                        }]
-                                                      }
+                                                      {
+                                                        model: Participant,
+                                                          include: [{
+                                                            model:User,
+                                                            attributes: ['name','username']
+                                                          }]
+                                                      },
+                                                      {model: Boardgame, attributes: ['id_boardGame','name','min_players','max_players']}
                                                     ]});
 
       if (!match) {
@@ -85,7 +110,7 @@ const { Match, Participant, User } = require('../models');
         throw new Error('Match not found');
       }
 
-      const deletedMatch = await match.destroy();
+      const deletedMatch = await Match.destroy({where: {id_match: id}});
 
       return deletedMatch;
     } catch (error) {
@@ -93,9 +118,23 @@ const { Match, Participant, User } = require('../models');
     }
   }
 
+  async function countMatches(){
+    try {
+        const matches = await Match.count();
+
+        return matches;
+
+    } catch (error) {
+        throw new Error("Error count loans");
+        
+    }
+}
+
   module.exports = {
     createMatch,
+    countMatches,
     getAllMatches,
+    getOpenMatches,
     getMatchById,
     updateMatch,
     deleteMatch,
