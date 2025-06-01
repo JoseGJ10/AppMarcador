@@ -18,6 +18,10 @@ module.exports = (sequelize) => {
         winner: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
+        },
+        creatorMatch: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     },{
         indexes: [
