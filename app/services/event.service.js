@@ -73,6 +73,30 @@ async function getEventById(eventId) {
     }
 }
 
+async function getHomeEvents(){
+    try {
+        const today = new Date();
+
+        const upcomingEvents = await Event.findAll({
+            where: {date: {[Op.gte]: today}},
+            order: [['date','DESC']],
+            limit: 6
+        })
+
+        const pastEvents = await Event.findAll({
+            where: {date: {[Op.lt]: today}},
+            order: [['date','DESC']],
+            limit: 6
+        })
+
+        return {upcomingEvents, pastEvents};
+
+    } catch (error) {
+        throw new Error("Error get Home Events: " + error.message);
+        
+    }
+}
+
 async function updateEvent(eventId, eventData) {
     try {
         const event = await Event.findByPk(eventId);
@@ -113,7 +137,8 @@ async function countEvents(){
 module.exports = { 
     createEvent, 
     getAllEvents, 
-    getEventById, 
+    getEventById,
+    getHomeEvents, 
     updateEvent, 
     deleteEvent, 
     countEvents,
