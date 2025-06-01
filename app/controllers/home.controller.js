@@ -2,6 +2,8 @@ const { countGames, getAllBoardGamesImagesFromDB } = require('../services/boardg
 const { countEvents } = require('../services/event.service');
 const { countUsers } = require('../services/user.service');
 const { countLoans } = require('../services/loan.service');
+const { countMatches } = require('../services/match.service')
+const { countParticipants } = require('../services/participant.service')
 const { getAllImagesFromDisk,getFolderSize } = require('../helpers/files');
 const { formatBytes } = require('../helpers/converts')
 const path = require('path');
@@ -13,8 +15,10 @@ const getDashBoardStats = async (req, res, next) => {
         const users = await countUsers();
         const loans = await countLoans();
         const events = await countEvents();
+        const totalMatches = await countMatches();
+        const totalParticipants = await countParticipants();
 
-        res.status(200).json({ success: true, data: {boardgames,users,loans,events}});
+        res.status(200).json({ success: true, data: {boardgames,users,loans,events,totalMatches,totalParticipants}});
 
     } catch (error) {
         next (error)

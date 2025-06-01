@@ -31,6 +31,18 @@ async function getAllEvents(req, res, next) {
     }
 }
 
+async function getHomeEvents(req,res,next){
+    try {
+        const eventsHome = await eventService.getHomeEvents();
+
+
+
+        res.status(200).json({success: true, data: eventsHome});
+    } catch (error) {
+        next(error)
+    }
+}
+
 async function getPaginatedEvents(req,res,next){
     try {
         
@@ -101,5 +113,6 @@ module.exports = {
     getAllEvents, 
     getEventById,
     getPaginatedEvents,
+    getHomeEvents,
     updateEvent, 
     deleteEvent };
