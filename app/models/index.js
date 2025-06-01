@@ -36,7 +36,7 @@ Object.keys(db).forEach(function(modelName) {
 
 applyRelationShip(db);
 
- sequelize.sync({ alter: true }).then( ()=>{
+ sequelize.sync(/* { alter: false } */).then( ()=>{
     console.log('Tables created');
 }).catch( err => {
     console.error('Unable to create tables:', err);
@@ -55,9 +55,9 @@ function applyRelationShip(db){
 
     let noNullFKCascade = { 
         onUpdate: "CASCADE",
-        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
         foreignKey: {
-        allowNull: false 
+            allowNull: false 
         }
     }
 
