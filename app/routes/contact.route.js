@@ -5,12 +5,12 @@ const { authenticate, authorization } = require('../middlewares/authmiddleware')
 
 router.post('/create', contactController.newContact);
 
-router.get('/',authenticate, authorization(['admin', 'moderator']) ,contactController.getAllContacts);
+router.get('/',authenticate, authorization('admin', 'moderator') ,contactController.getAllContacts);
 
-router.get('/:id',authenticate, authorization(['admin', 'moderator']) ,contactController.getOneContactById);
+router.get('/:id',authenticate, authorization('admin', 'moderator') ,contactController.getOneContactById);
 
-router.put('/update',authenticate, authorization(['admin', 'moderator']), contactController.updateDataContact);
+router.put('/update/:id',authenticate, authorization('admin', 'moderator'), contactController.updateDataContact);
 
-router.delete('/delete',authenticate, authorization(['admin', 'moderator']), contactController.deleteOneContact);
+router.delete('/delete',authenticate, authorization('admin', 'moderator'), contactController.deleteOneContact);
 
 module.exports = router

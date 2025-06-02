@@ -63,17 +63,17 @@ async function updateDataContact(req,res,next) {
         const { name, email, message, subject, responded } = req.body
 
         if(!id){
-            const error = new Error("Any fields is required.");
+            const error = new Error("fields id is required.");
             error.name = "ValidationError"
-            error.cause = "Missing field name, email, message, subject or responded",
+            error.cause = "Missing field id",
             error.statusCode = 404
             throw error
         }
 
-        if (!name && !email && !message && !subject && !responded){
-            const error = new Error("fields id is required.");
+        if (!name && !email && !message && !subject && responded === undefined){
+            const error = new Error("Any fields is required.");
             error.name = "ValidationError"
-            error.cause = "Missing field id",
+            error.cause = "Missing field name, email, message, subject or responded",
             error.statusCode = 404
             throw error
         }
